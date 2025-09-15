@@ -1,0 +1,19 @@
+{
+  "slug": "climate-change-research",
+  "title": "New Climate Research Shows Alarming Trends",
+  "dek": "Scientists reveal unprecedented data on global warming acceleration",
+  "content_markdown": "# Breaking Research Findings\n\nA comprehensive study published today reveals that climate change is accelerating faster than previously predicted.\n\n![Climate data visualization](/uploads/climate-chart.jpg)\n\n## Key Findings\n\n- Global temperatures have risen 1.2°C since pre-industrial times\n- Arctic ice is melting at record rates\n- Sea levels are rising faster than expected\n\n### What This Means\n\nThe implications of this research are far-reaching. Scientists are calling for immediate action to reduce greenhouse gas emissions and implement sustainable practices across all sectors.\n\n> \"We are at a critical juncture. The next decade will determine the future of our planet.\" - Dr. Sarah Johnson, Lead Researcher\n\n## Call to Action\n\nGovernments, businesses, and individuals must work together to address this crisis. The time for half-measures has passed.",
+  "excerpt": "New research reveals climate change is accelerating faster than predicted, with scientists calling for immediate action.",
+  "author": "Baraa Lehnid",
+  "author_id": "baraa-lehnid",
+  "tags": ["climate", "science", "environment"],
+  "category": "STEM",
+  "published_at": "2025-09-13T14:30:00.000Z",
+  "created_at": "2025-09-12T09:15:00.000Z",
+  "updated_at": "2025-09-13T10:20:00.000Z",
+  "status": "published",
+  "cover_image": "/uploads/climate-chart.jpg",
+  "read_time": 3,
+  "word_count": 245,
+  "meta_description": "New climate research shows alarming trends in global warming acceleration with unprecedented data."
+}

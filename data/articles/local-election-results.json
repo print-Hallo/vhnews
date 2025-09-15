@@ -1,0 +1,19 @@
+{
+  "slug": "local-election-results",
+  "title": "Local Elections Bring Surprising Results",
+  "dek": "Voter turnout reaches historic highs as new candidates emerge victorious",
+  "content_markdown": "# Election Night Delivers Surprises\n\nLast night's local elections saw unprecedented voter turnout and several unexpected victories that will reshape the political landscape.\n\n![Election results board](/uploads/election-results.jpg)\n\n## Key Results\n\n### Mayor's Race\nIn a stunning upset, newcomer **Alexandra Chen** defeated incumbent Mayor Robert Williams by a margin of 52% to 48%. Chen's grassroots campaign focused on affordable housing and public transportation improvements.\n\n### City Council\nThree new faces will join the city council:\n- **Marcus Thompson** (District 1) - 61% of the vote\n- **Elena Rodriguez** (District 3) - 55% of the vote  \n- **David Kim** (District 5) - 58% of the vote\n\n## Voter Turnout\nWith 78% of eligible voters participating, this election saw the highest turnout in over two decades. Young voters aged 18-29 comprised 34% of all ballots cast, up from just 18% in the previous election.\n\n## What's Next\nThe new administration will take office on January 1st, with Chen promising to hit the ground running on her campaign promises of housing reform and infrastructure investment.",
+  "excerpt": "Local elections deliver surprising results with record voter turnout and newcomer Alexandra Chen defeating the incumbent mayor.",
+  "author": "Jean-Pierre Martin",
+  "author_id": "jean-pierre-martin",
+  "tags": ["politics", "local", "elections"],
+  "category": "POLITIQUE",
+  "published_at": "2025-09-12T22:45:00.000Z",
+  "created_at": "2025-09-12T20:30:00.000Z",
+  "updated_at": "2025-09-12T22:40:00.000Z",
+  "status": "published",
+  "cover_image": "/uploads/election-results.jpg",
+  "read_time": 4,
+  "word_count": 312,
+  "meta_description": "Local elections bring surprising results with record voter turnout and new leadership emerging."
+}
