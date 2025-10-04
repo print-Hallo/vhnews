@@ -2,6 +2,8 @@ import { getArticles } from "@/lib/articles"
 
 export default async function sitemap() {
   const baseUrl = process.env.BASE_URL || "https://your-domain.com"
+  const baseUrlEn = "https://www.vhnews.tn/en"
+  const baseUrlFr = "https://www.vhnews.tn/fr"
 
   // Get all published articles
   const { articles } = await getArticles({
@@ -12,31 +14,61 @@ export default async function sitemap() {
   // Static pages
   const staticPages = [
     {
-      url: baseUrl,
+      url: baseUrlFr,
       lastModified: new Date(),
       changeFrequency: "daily",
       priority: 1,
     },
     {
-      url: `${baseUrl}/category/STEM`,
+      url: baseUrlEn,
+      lastModified: new Date(),
+      changeFrequency: "daily",
+      priority: 1,
+    },
+    {
+      url: `${baseUrlFr}/category/STEM`,
       lastModified: new Date(),
       changeFrequency: "daily",
       priority: 0.8,
     },
     {
-      url: `${baseUrl}/category/POLITIQUE`,
+      url: `${baseUrlEn}/category/STEM`,
       lastModified: new Date(),
       changeFrequency: "daily",
       priority: 0.8,
     },
     {
-      url: `${baseUrl}/category/SOCIOLOGIE`,
+      url: `${baseUrlFr}/category/POLITIQUE`,
       lastModified: new Date(),
       changeFrequency: "daily",
       priority: 0.8,
     },
     {
-      url: `${baseUrl}/category/DIVERS`,
+      url: `${baseUrlEn}/category/POLITIQUE`,
+      lastModified: new Date(),
+      changeFrequency: "daily",
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrlFr}/category/SOCIOLOGIE`,
+      lastModified: new Date(),
+      changeFrequency: "daily",
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrlEn}/category/SOCIOLOGIE`,
+      lastModified: new Date(),
+      changeFrequency: "daily",
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrlFr}/category/DIVERS`,
+      lastModified: new Date(),
+      changeFrequency: "daily",
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrlEn}/category/DIVERS`,
       lastModified: new Date(),
       changeFrequency: "daily",
       priority: 0.8,
@@ -44,21 +76,46 @@ export default async function sitemap() {
   ]
 
   // Article pages
-  const articlePages = articles.map((article) => ({
-    url: `${baseUrl}/articles/${article.slug}`,
-    lastModified: new Date(article.updated_at),
-    changeFrequency: "weekly",
-    priority: 0.6,
-  }))
+  const articlePages = articles.flatMap((article) => {
+    const commonData = {
+      lastModified: new Date(article.updated_at),
+      changeFrequency: "daily",
+      priority: 0.8,
+    };
+  
+    return [
+      {
+        url: `${baseUrlFr}/articles/${article.slug}`,
+        ...commonData,
+      },
+      {
+        url: `${baseUrlEn}/articles/${article.slug}`,
+        ...commonData,
+      },
+    ];
+  });
 
   // Get unique tags
   const allTags = [...new Set(articles.flatMap((article) => article.tags || []))]
-  const tagPages = allTags.map((tag) => ({
-    url: `${baseUrl}/tag/${encodeURIComponent(tag)}`,
-    lastModified: new Date(),
-    changeFrequency: "weekly",
-    priority: 0.4,
-  }))
+  const tagPages = allTags.flatMap((tag) => {
+    const commonData = {
+      lastModified: new Date(),
+      changeFrequency: "daily",
+      priority: 0.4,
+    };
+  
+    return [
+      {
+        url: `${baseUrlFr}/tag/${encodeURIComponent(tag)}`,
+        ...commonData,
+      },
+      {
+        url: `${baseUrlEn}/tag/${encodeURIComponent(tag)}`,
+        ...commonData,
+      },
+    ];
+  });
+  
 
   return [...staticPages, ...articlePages, ...tagPages]
 }

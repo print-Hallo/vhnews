@@ -2,7 +2,7 @@ import { getArticles } from "@/lib/articles"
 import { NextResponse } from "next/server"
 
 export async function GET() {
-  const baseUrl = process.env.BASE_URL || "https://your-domain.com"
+  const baseUrl = "https://www.vhnews.tn"
 
   try {
     // Get latest 50 published articles
@@ -33,14 +33,14 @@ export async function GET() {
     const rssXml = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>News Site</title>
+    <title>VHNews</title>
     <description>Latest news and analysis covering politics, science, sociology, and more</description>
     <link>${baseUrl}</link>
     <language>en-us</language>
     <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>
     <atom:link href="${baseUrl}/rss.xml" rel="self" type="application/rss+xml"/>
-    <managingEditor>editor@newssite.com (News Site Editor)</managingEditor>
-    <webMaster>webmaster@newssite.com (News Site Webmaster)</webMaster>
+    <managingEditor> aymen.zlitni.tn@gmail.com (VHNews Editor)</managingEditor>
+    <webMaster> aymen.zlitni.tn@gmail.com (VHNews Webmaster)</webMaster>
     <ttl>60</ttl>
     ${rssItems}
   </channel>

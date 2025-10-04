@@ -2,6 +2,7 @@ import { getArticles } from "@/lib/articles"
 import { notFound } from "next/navigation"
 import Header from "@/components/Header"
 import InfiniteArticleList from "@/components/InfiniteArticleList"
+import { getServerTranslations, defaultLanguage } from "@/lib/i18n/server-translations"
 
 const validCategories = ["STEM", "POLITIQUE", "SOCIOLOGIE", "DIVERS"]
 
@@ -15,12 +16,13 @@ export async function generateMetadata({ params }) {
   }
 
   return {
-    title: `${category} - News Site`,
+    title: `${category} - VHNews`,
     description: `Latest articles in ${category.toLowerCase()} category`,
   }
 }
 
 export default async function CategoryPage({ params }) {
+  const { t, locale } = await getServerTranslations()
   const category = params.category.toUpperCase()
 
   if (!validCategories.includes(category)) {
@@ -43,7 +45,7 @@ export default async function CategoryPage({ params }) {
           {/* Page Header */}
           <header className="mb-12">
             <h1 className="headline text-4xl md:text-5xl mb-4">{category}</h1>
-            <p className="text-lg text-muted-foreground">Latest articles and analysis in {category.toLowerCase()}</p>
+            <p className="text-lg text-muted-foreground">{t("category.subhead")} {category.toLowerCase()}</p>
           </header>
 
           {/* Articles */}
@@ -56,7 +58,7 @@ export default async function CategoryPage({ params }) {
             />
           ) : (
             <div className="text-center py-12">
-              <p className="text-muted-foreground">No articles found in this category.</p>
+              <p className="text-muted-foreground">{t("category.error")}</p>
             </div>
           )}
         </div>

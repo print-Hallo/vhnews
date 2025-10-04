@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { useTranslation } from "@/lib/i18n/client-translations"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
@@ -27,11 +28,12 @@ export default function AdminDashboard({ initialData, filters }) {
   const [data, setData] = useState(initialData)
   const [loading, setLoading] = useState(false)
   const [searchQuery, setSearchQuery] = useState("")
-
+  const {t} = useTranslation()
   const handleLogout = async () => {
     try {
       await fetch("/api/admin/logout", { method: "POST" })
       router.push("/admin/login")
+      router.refresh()
     } catch (error) {
       console.error("Logout error:", error)
     }
@@ -126,7 +128,7 @@ export default function AdminDashboard({ initialData, filters }) {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <Link href="/" className="text-xl font-bold font-serif">
-                News Site Admin
+                VH News Admin
               </Link>
             </div>
 
@@ -154,13 +156,13 @@ export default function AdminDashboard({ initialData, filters }) {
               <Button variant="outline" size="sm" asChild>
                 <Link href="/admin/theme">
                   <Palette className="h-4 w-4 mr-2" />
-                  Theme
+                  {t("home.theme")}
                 </Link>
               </Button>
 
               <Button onClick={handleLogout} variant="outline" size="sm">
                 <LogOut className="h-4 w-4 mr-2" />
-                Logout
+                {t("home.logout")}
               </Button>
             </div>
           </div>
@@ -172,7 +174,7 @@ export default function AdminDashboard({ initialData, filters }) {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
           <Card>
             <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium">Total Articles</CardTitle>
+              <CardTitle className="text-sm font-medium">{t("home.total_articles")}</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{data.total}</div>
@@ -181,7 +183,7 @@ export default function AdminDashboard({ initialData, filters }) {
 
           <Card>
             <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium">Published</CardTitle>
+              <CardTitle className="text-sm font-medium">{t("editor.published")}</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-green-600">
@@ -192,7 +194,7 @@ export default function AdminDashboard({ initialData, filters }) {
 
           <Card>
             <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium">Drafts</CardTitle>
+              <CardTitle className="text-sm font-medium">{t("editor.drafts")}</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-yellow-600">
@@ -203,7 +205,7 @@ export default function AdminDashboard({ initialData, filters }) {
 
           <Card>
             <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium">Scheduled</CardTitle>
+              <CardTitle className="text-sm font-medium">{t("home.scheduled")}</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-blue-600">
@@ -218,7 +220,7 @@ export default function AdminDashboard({ initialData, filters }) {
           <Button asChild>
             <Link href="/admin/editor">
               <Plus className="h-4 w-4 mr-2" />
-              New Article
+              {t("editor.newArticle")}
             </Link>
           </Button>
 
@@ -228,10 +230,10 @@ export default function AdminDashboard({ initialData, filters }) {
                 <SelectValue placeholder="Filter by status" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">All Status</SelectItem>
-                <SelectItem value="published">Published</SelectItem>
-                <SelectItem value="draft">Draft</SelectItem>
-                <SelectItem value="scheduled">Scheduled</SelectItem>
+                <SelectItem value="all">{t("home.all_status")}</SelectItem>
+                <SelectItem value="published">{t("editor.published")}</SelectItem>
+                <SelectItem value="draft">{t("editor.draft")}</SelectItem>
+                <SelectItem value="scheduled">{t("editor.scheduled")}</SelectItem>
               </SelectContent>
             </Select>
 
@@ -240,11 +242,11 @@ export default function AdminDashboard({ initialData, filters }) {
                 <SelectValue placeholder="Filter by category" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="none">All Categories</SelectItem>
+                <SelectItem value="none">{t("category.all")}</SelectItem>
                 <SelectItem value="STEM">STEM</SelectItem>
-                <SelectItem value="POLITIQUE">POLITIQUE</SelectItem>
-                <SelectItem value="SOCIOLOGIE">SOCIOLOGIE</SelectItem>
-                <SelectItem value="DIVERS">DIVERS</SelectItem>
+                <SelectItem value="POLITIQUE">{t("nav.politics")}</SelectItem>
+                <SelectItem value="SOCIOLOGIE">{t("nav.sociology")}</SelectItem>
+                <SelectItem value="DIVERS">{t("nav.misc")}</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -260,11 +262,11 @@ export default function AdminDashboard({ initialData, filters }) {
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>Title</TableHead>
-                    <TableHead>Category</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead>Author</TableHead>
-                    <TableHead>Updated</TableHead>
+                    <TableHead>{t("editor.title")}</TableHead>
+                    <TableHead>{t("editor.category")}</TableHead>
+                    <TableHead>{t("editor.status")}</TableHead>
+                    <TableHead>{t("editor.author")}</TableHead>
+                    <TableHead>{t("editor.updated")}</TableHead>
                     <TableHead>Actions</TableHead>
                   </TableRow>
                 </TableHeader>
@@ -315,14 +317,14 @@ export default function AdminDashboard({ initialData, filters }) {
                             </AlertDialogTrigger>
                             <AlertDialogContent>
                               <AlertDialogHeader>
-                                <AlertDialogTitle>Delete Article</AlertDialogTitle>
+                                <AlertDialogTitle>{t("editor.delete_article")}</AlertDialogTitle>
                                 <AlertDialogDescription>
-                                  Are you sure you want to delete "{article.title}"? This action cannot be undone.
+                                  {t("editor.delete_confirmation")}
                                 </AlertDialogDescription>
                               </AlertDialogHeader>
                               <AlertDialogFooter>
-                                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                <AlertDialogAction onClick={() => handleDelete(article.slug)}>Delete</AlertDialogAction>
+                                <AlertDialogCancel>{t("editor.cancel")}</AlertDialogCancel>
+                                <AlertDialogAction onClick={() => handleDelete(article.slug)}>{t("editor.delete")}</AlertDialogAction>
                               </AlertDialogFooter>
                             </AlertDialogContent>
                           </AlertDialog>
@@ -334,7 +336,7 @@ export default function AdminDashboard({ initialData, filters }) {
               </Table>
             ) : (
               <div className="text-center py-8">
-                <p className="text-muted-foreground">No articles found.</p>
+                <p className="text-muted-foreground">{t("editor.no_articles")}</p>
               </div>
             )}
           </CardContent>

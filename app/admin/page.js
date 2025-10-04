@@ -1,19 +1,18 @@
 import { redirect } from "next/navigation"
-import { cookies } from "next/headers"
+import { validateAdminTokenServer } from "@/lib/auth"
 import AdminDashboard from "./AdminDashboard"
 import { getArticles } from "@/lib/articles"
 
 async function checkAuth() {
-  const cookieStore = cookies()
-  const token = cookieStore.get("admin-token")
-
-  if (!token || token.value !== process.env.ADMIN_PASSWORD) {
+  const isAuthenticated = await validateAdminTokenServer()
+  
+  if (!isAuthenticated) {
     redirect("/admin/login")
   }
 }
 
 export const metadata = {
-  title: "Admin Dashboard - News Site",
+  title: "Admin Dashboard - VHNews",
   description: "Content management system",
 }
 
@@ -30,6 +29,7 @@ export default async function AdminPage({ searchParams }) {
     page,
     status: status === "all" ? undefined : status,
     category: category || undefined,
+    isAdmin: true,
   }
 
   // For admin, we want to see all articles regardless of status

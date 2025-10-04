@@ -14,7 +14,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { ArrowLeft, Save, Loader2 } from "lucide-react"
 import { slugify } from "@/lib/slugify"
 import { calculateReadTime } from "@/lib/utils/readTime"
-import { useTranslation } from "@/lib/i18n/useTranslation"
+import { useTranslation } from "@/lib/i18n/client-translations"
 
 export default function ArticleEditor({ article = null }) {
   const router = useRouter()
@@ -234,7 +234,7 @@ export default function ArticleEditor({ article = null }) {
                 {t("editor.saveDraft")}
               </Button>
 
-              <Button onClick={() => handleSave("published")} disabled={loading}>
+              <Button onClick={() => handleSave(formData.status)} disabled={loading}>
                 {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                 {t("editor.publish")}
               </Button>

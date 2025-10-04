@@ -1,13 +1,15 @@
 import { getArticles } from "@/lib/articles"
 import Header from "@/components/Header"
 import InfiniteArticleList from "@/components/InfiniteArticleList"
+import { getServerTranslations, defaultLanguage } from "@/lib/i18n/server-translations"
 
 export async function generateMetadata({ searchParams }) {
   const query = searchParams.q || ""
+  const {t, locale} = await getServerTranslations()
 
   return {
     title: query ? `Search: ${query} - News Site` : "Search - News Site",
-    description: query ? `Search results for "${query}"` : "Search articles",
+    description: query ? `${t("search.search_results_for")} "${query}"` : `${t("search.search_articles")}`,
   }
 }
 
@@ -20,6 +22,7 @@ export default async function SearchPage({ searchParams }) {
     limit: 12,
     page: 1,
   })
+  const {t, locale} = await getServerTranslations()
 
   return (
     <div className="min-h-screen bg-background">
@@ -29,13 +32,13 @@ export default async function SearchPage({ searchParams }) {
         <div className="max-w-4xl mx-auto">
           {/* Page Header */}
           <header className="mb-12">
-            <h1 className="headline text-4xl md:text-5xl mb-4">Search Results</h1>
+            <h1 className="headline text-4xl md:text-5xl mb-4">{t("search.result_title")}</h1>
             {query && (
               <p className="text-lg text-muted-foreground">
-                {data.total > 0 ? `${data.total} results for "${query}"` : `No results found for "${query}"`}
+            {data.total > 0 ? `${data.total} ${t("search.results_for")} "${query}"` : `${t("search.no_results_for")} "${query}"`}
               </p>
             )}
-            {!query && <p className="text-lg text-muted-foreground">Enter a search term to find articles</p>}
+            {!query && <p className="text-lg text-muted-foreground">{t("search.nothing_written")}</p>}
           </header>
 
           {/* Search Results */}
@@ -49,7 +52,7 @@ export default async function SearchPage({ searchParams }) {
           ) : query ? (
             <div className="text-center py-12">
               <p className="text-muted-foreground">
-                No articles found matching your search. Try different keywords or browse our categories.
+                {t("search.error")}
               </p>
             </div>
           ) : null}

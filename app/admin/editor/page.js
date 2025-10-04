@@ -1,15 +1,7 @@
 import { redirect } from "next/navigation"
-import { cookies } from "next/headers"
 import ArticleEditor from "./ArticleEditor"
+import { validateAdminTokenServer } from "@/lib/auth"
 
-async function checkAuth() {
-  const cookieStore = cookies()
-  const token = cookieStore.get("admin-token")
-
-  if (!token || token.value !== process.env.ADMIN_PASSWORD) {
-    redirect("/admin/login")
-  }
-}
 
 export const metadata = {
   title: "New Article - Admin",
@@ -17,7 +9,9 @@ export const metadata = {
 }
 
 export default async function NewArticlePage() {
-  await checkAuth()
-
+  const isAuthenticated = await validateAdminTokenServer()
+  if (!isAuthenticated) {
+    redirect("/admin/login")
+  }
   return <ArticleEditor />
 }

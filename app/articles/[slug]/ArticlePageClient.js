@@ -10,12 +10,12 @@ import ArticleCard from "@/components/ArticleCard"
 import { Calendar, Clock, User, Facebook, Twitter, Linkedin } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useEffect, useState } from "react"
-
-export default function ArticlePageClient({ article, relatedArticles }) {
+import { useTranslation } from "@/lib/i18n/client-translations"
+export default function ArticlePageClient({ article, relatedArticles, locale="fr" }) {
   if (!article || article.status !== "published") {
     notFound()
   }
-
+  const {t} = useTranslation()
   const [contentHtml, setContentHtml] = useState("")
   const [shareUrl, setShareUrl] = useState("")
 
@@ -32,7 +32,7 @@ export default function ArticlePageClient({ article, relatedArticles }) {
     const structuredData = generateStructuredData(article, baseUrl)
     const breadcrumbData = generateBreadcrumbStructuredData(
       [
-        { name: "Home", url: "/" },
+        { name: t("paths.home"), url: "/" },
         { name: article.category, url: `/category/${article.category}` },
         { name: article.title, url: `/articles/${article.slug}` },
       ],
@@ -57,11 +57,14 @@ export default function ArticlePageClient({ article, relatedArticles }) {
     }
   }, [article])
 
-  const publishedDate = new Date(article.published_at).toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  })
+  const publishedDate = new Date(article.published_at).toLocaleDateString(
+    locale === "en" ? "en-GB" : "fr-FR", 
+    {
+      day: "numeric",
+      month: "short",
+      ...(locale === "en" ? {} : { year: "numeric" })
+    }
+  )
 
   return (
     <div className="min-h-screen bg-background">
@@ -72,7 +75,7 @@ export default function ArticlePageClient({ article, relatedArticles }) {
           <ol className="flex items-center space-x-2 text-sm text-muted-foreground">
             <li>
               <Link href="/" className="hover:text-primary transition-colors">
-                Home
+              {t("paths.home")}
               </Link>
             </li>
             <li>/</li>
@@ -86,7 +89,7 @@ export default function ArticlePageClient({ article, relatedArticles }) {
           </ol>
         </nav>
 
-        <article className="max-w-4xl mx-auto">
+        <article className="max-w-4xl px-12 mx-auto">
           {/* Article Header */}
           <header className="mb-8">
             {/* Category */}
@@ -100,7 +103,7 @@ export default function ArticlePageClient({ article, relatedArticles }) {
             </div>
 
             {/* Title and Dek */}
-            <h1 className="headline text-3xl md:text-4xl lg:text-5xl leading-tight mb-4">{article.title}</h1>
+            <h1 className="font-medium prose text-4xl md:text-4xl lg:text-6xl leading-tight mb-4">{article.title}</h1>
 
             {article.dek && <p className="text-xl text-muted-foreground leading-relaxed mb-6">{article.dek}</p>}
 
@@ -108,7 +111,7 @@ export default function ArticlePageClient({ article, relatedArticles }) {
             <div className="flex flex-wrap items-center gap-6 text-sm text-muted-foreground mb-6">
               <div className="flex items-center gap-2">
                 <User className="h-4 w-4" />
-                <span>By {article.author}</span>
+                <span>{t("general.by")} {article.author}</span>
               </div>
               <div className="flex items-center gap-2">
                 <Calendar className="h-4 w-4" />
@@ -116,16 +119,16 @@ export default function ArticlePageClient({ article, relatedArticles }) {
               </div>
               <div className="flex items-center gap-2">
                 <Clock className="h-4 w-4" />
-                <span>{article.read_time} min read</span>
+                <span>{article.read_time} {t("general.minRead")}</span>
               </div>
               <div className="text-xs">
-                <span>{article.word_count} words</span>
+                <span>{article.word_count} {t("general.words")}</span>
               </div>
             </div>
 
             {/* Share Buttons */}
             <div className="flex items-center gap-2 mb-8">
-              <span className="text-sm font-medium">Share:</span>
+              <span className="text-sm font-medium">{t("general.share")}:</span>
               <div className="flex gap-2">
                 <Button
                   size="sm"
@@ -185,7 +188,7 @@ export default function ArticlePageClient({ article, relatedArticles }) {
 
           {/* Article Content */}
           <div
-            className="article-content prose prose-lg max-w-none"
+            className="article-content text-justify prose  max-w-none"
             dangerouslySetInnerHTML={{ __html: contentHtml }}
           />
 

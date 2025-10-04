@@ -2,19 +2,24 @@ import Link from "next/link"
 import Image from "next/image"
 import { Calendar, Clock, User } from "lucide-react"
 
-export default function ArticleCard({ article, variant = "default" }) {
+export default function ArticleCard({ article, variant = "default", locale = "fr" }) {
   if (!article) return null
 
-  const publishedDate = new Date(article.published_at).toLocaleDateString("en-US", {
-    month: "short",
-    day: "numeric",
-  })
+  const publishedDate = new Date(article.published_at).toLocaleDateString(
+    locale === "en" ? "en-GB" : "fr-FR", 
+    {
+      day: "numeric",
+      month: "short",
+      ...(locale === "en" ? {} : { year: "numeric" })
+    }
+  )
+
 
   return (
-    <article className="group border border-border rounded-lg overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1 bg-card">
+    <article className="group border border-border  rounded-lg overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1 bg-card">
       <Link href={`/articles/${article.slug}`} className="block">
         {/* Thumbnail */}
-        <div className="relative aspect-[4/3] overflow-hidden">
+        <div className="relative aspect-[16/9] max overflow-hidden">
           <Image
             src={article.cover_image || "/placeholder.svg?height=200&width=300&query=news"}
             alt={article.title}
@@ -30,11 +35,11 @@ export default function ArticleCard({ article, variant = "default" }) {
 
         {/* Content */}
         <div className="p-4 space-y-3">
-          <h3 className="headline text-lg leading-tight line-clamp-2 group-hover:text-primary transition-colors">
+          <h3 className="headline prose text-lg lg:text-2xl md: text-xl leading-tight line-clamp-2 group-hover:text-primary transition-colors">
             {article.title}
           </h3>
 
-          <p className="text-sm text-muted-foreground line-clamp-3 leading-relaxed">{article.excerpt}</p>
+          <p className="text-lg prose text-muted-foreground mr-4  line-clamp-3 leading-relaxed">{article.excerpt}</p>
 
           {/* Metadata */}
           <div className="flex flex-wrap items-center gap-3 text-xs text-muted-foreground">

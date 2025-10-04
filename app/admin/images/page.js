@@ -1,15 +1,7 @@
 import { redirect } from "next/navigation"
 import { cookies } from "next/headers"
 import ImageManager from "./ImageManager"
-
-async function checkAuth() {
-  const cookieStore = cookies()
-  const token = cookieStore.get("admin-token")
-
-  if (!token || token.value !== process.env.ADMIN_PASSWORD) {
-    redirect("/admin/login")
-  }
-}
+import { validateAdminTokenServer } from "@/lib/auth"
 
 export const metadata = {
   title: "Image Manager - Admin",
@@ -17,7 +9,10 @@ export const metadata = {
 }
 
 export default async function ImageManagerPage() {
-  await checkAuth()
-
+  const isAuthenticated = await validateAdminTokenServer()
+  
+  if (!isAuthenticated) {
+    redirect("/admin/login")
+  }
   return <ImageManager />
 }

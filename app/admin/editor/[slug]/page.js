@@ -1,13 +1,10 @@
 import { redirect } from "next/navigation"
-import { cookies } from "next/headers"
 import { getArticle } from "@/lib/articles"
 import ArticleEditor from "../ArticleEditor"
-
+import { validateAdminTokenServer } from "@/lib/auth"
 async function checkAuth() {
-  const cookieStore = cookies()
-  const token = cookieStore.get("admin-token")
-
-  if (!token || token.value !== process.env.ADMIN_PASSWORD) {
+  const isAuthenticated = await validateAdminTokenServer()
+  if (!isAuthenticated) {
     redirect("/admin/login")
   }
 }

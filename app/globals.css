@@ -47,9 +47,9 @@
   --theme-text: var(--foreground);
   --theme-text-muted: var(--muted-foreground);
   --theme-border: var(--border);
-  --theme-font-family: system-ui;
-  --theme-heading-font: serif;
-  --theme-font-size: 16px;
+  --theme-font-family: "EB Garamond", serif;
+  --theme-heading-font: "EB Garamond", serif;;
+  --theme-font-size: 24px;
   --theme-line-height: 1.5;
   --theme-max-width: 1200px;
   --theme-spacing: 1;
@@ -203,7 +203,7 @@
   }
 
   .prose a {
-    color: var(--theme-accent);
+    color: black;
     @apply underline hover:opacity-80;
   }
 
@@ -286,13 +286,49 @@
     border-radius: var(--theme-border-radius);
     padding: calc(1rem * var(--theme-spacing));
   }
-
-  /* Improved focus states */
-  .focus-visible {
-    outline: 2px solid var(--theme-accent);
-    outline-offset: 2px;
+  .thin-scrollbar::-webkit-scrollbar {
+    width: 6px; /* Adjust as desired for vertical scrollbars */
   }
 
+  .thin-scrollbar::-webkit-scrollbar-track {
+    background: #f1f1f1; /* Customize track background */
+  }
+
+  .thin-scrollbar::-webkit-scrollbar-thumb {
+    background: #888; /* Customize thumb color */
+    border-radius: 3px; /* Add rounding to the thumb */
+  }
+  /* Improved focus states */
+  .focus-visible {
+    
+  }
+  
+  @keyframes l5 {
+    0%   {background-position: 0    0,100% 0   ,100% 100%,0 100%}
+    33%  {background-position: 0    0,100% 0   ,100% 100%,0 100%;width:60px;height: 60px}
+    66%  {background-position: 100% 0,100% 100%,0    100%,0 0   ;width:60px;height: 60px}
+    100% {background-position: 100% 0,100% 100%,0    100%,0 0   }
+  }
+  .md-table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-bottom: 1em;
+  }
+  .md-link {
+    color: rgb(255, 0, 0);
+    text-decoration: underline;
+  }
+  .md-table th,
+  .md-table td {
+    border: 1px solid #333;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  .md-table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+  }
   /* Better loading states */
   .loading-skeleton {
     background: linear-gradient(90deg, var(--theme-surface) 25%, var(--theme-border) 50%, var(--theme-surface) 75%);

@@ -11,6 +11,7 @@ import { Loader2 } from "lucide-react"
 
 export default function LoginForm() {
   const router = useRouter()
+  const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
@@ -26,15 +27,16 @@ export default function LoginForm() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ password }),
+        body: JSON.stringify({ username, password }),
       })
 
       const data = await response.json()
 
       if (response.ok) {
         router.push("/admin")
+        router.refresh() // Refresh to update auth state
       } else {
-        setError(data.message || "Invalid password")
+        setError(data.message || "Invalid credentials")
       }
     } catch (error) {
       setError("Login failed. Please try again.")
@@ -44,12 +46,26 @@ export default function LoginForm() {
   }
 
   return (
-    <Card>
+    <Card className="w-full max-w-md">
       <CardHeader>
         <CardTitle>Admin Access</CardTitle>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="space-y-2">
+            <Label htmlFor="username">Username</Label>
+            <Input
+              id="username"
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              placeholder="Enter username"
+              autoComplete="username"
+              required
+              disabled={loading}
+            />
+          </div>
+          
           <div className="space-y-2">
             <Label htmlFor="password">Password</Label>
             <Input
@@ -57,7 +73,8 @@ export default function LoginForm() {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="Enter admin password"
+              placeholder="Enter password"
+              autoComplete="current-password"
               required
               disabled={loading}
             />

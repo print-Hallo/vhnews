@@ -2,7 +2,7 @@ import { getArticles } from "@/lib/articles"
 import { NextResponse } from "next/server"
 
 export async function GET() {
-  const baseUrl = process.env.BASE_URL || "https://your-domain.com"
+  const baseUrl = "https://www.vhnews.tn"
 
   try {
     // Get latest 50 published articles
@@ -36,13 +36,13 @@ export async function GET() {
 
     const atomXml = `<?xml version="1.0" encoding="UTF-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>News Site</title>
+  <title>VHNews</title>
   <subtitle>Latest news and analysis covering politics, science, sociology, and more</subtitle>
   <link href="${baseUrl}/feed.xml" rel="self" type="application/atom+xml"/>
   <link href="${baseUrl}" rel="alternate" type="text/html"/>
   <id>${baseUrl}/</id>
   <updated>${new Date().toISOString()}</updated>
-  <rights>Copyright © ${new Date().getFullYear()} News Site</rights>
+  <rights>Copyright © ${new Date().getFullYear()} VHnews</rights>
   <generator uri="https://nextjs.org/" version="14.2.5">Next.js</generator>
   ${atomEntries}
 </feed>`

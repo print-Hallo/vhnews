@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from "react"
 import ArticleCard from "./ArticleCard"
 import { Button } from "@/components/ui/button"
 import { Loader2 } from "lucide-react"
-
+import HeroCard from "./HeroCard"
 export default function InfiniteArticleList({
   initialArticles = [],
   initialPage = 1,
@@ -12,6 +12,7 @@ export default function InfiniteArticleList({
   category,
   tag,
   searchQuery,
+  
 }) {
   const [articles, setArticles] = useState(initialArticles)
   const [page, setPage] = useState(initialPage)
@@ -44,6 +45,7 @@ export default function InfiniteArticleList({
       const data = await response.json()
 
       setArticles((prev) => [...prev, ...data.articles])
+      console.log("this is the data", articles)
       setPage(data.page)
       setTotalPages(data.totalPages)
     } catch (err) {
@@ -79,11 +81,11 @@ export default function InfiniteArticleList({
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 ">
       {/* Articles Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-6">
         {articles.map((article, index) => (
-          <ArticleCard key={`${article.slug}-${index}`} article={article} />
+          <HeroCard key={`${article.slug}-${index}`} article={article} />
         ))}
       </div>
 
