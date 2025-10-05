@@ -41,13 +41,13 @@ export default function Header() {
         {/* Top bar with menu button */}
         <div className="flex items-center  justify-between xl:py-2 py-4">
           {/* Mobile menu button */}
-          <Button variant="ghost" size="sm" className="xl:hidden" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+          <Button variant="ghost" aria-label="Toggle navigation" aria-controls="nav-menu" size="sm" className="xl:hidden" onClick={() => setIsMenuOpen(!isMenuOpen)}>
             {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </Button>
         </div>
 
         {/* Navigation */}
-        <nav className={`${isMenuOpen ? "block" : "hidden"} xl:flex justify-between border-t xl:border-t-0 pt-4 xl:pt-0 pb-4`}>
+        <nav id="nav-menu" className={`${isMenuOpen ? "block" : "hidden"} xl:flex justify-between border-t xl:border-t-0 pt-4 xl:pt-0 pb-4`}>
           <ul className="flex flex-col xl:flex-row xl:items-center xl:w-full gap-4 xl:gap-4">
           <li className="xl:flex xl:items-center xl:gap-4">
             <Link href="/" className="text-2xl font-bold" style={{ fontFamily: "var(--theme-heading-font)" }}>
@@ -60,19 +60,18 @@ export default function Header() {
             </Link>
           </li>
 
-          <div className="xl:flex xl:items-center xl:gap-8 flex flex-col xl:flex-row gap-4">
-            {categories.map((category, index) => (
-              <li key={category.name} className="flex items-center gap-4 xl:gap-8">
-                <Link
-                  href={category.href}
-                  className="text-sm font-medium border-transparent uppercase tracking-wide hover:text-primary transition-colors focus-visible"
-                >
-                  {category.name}
-                </Link>
-                {index === 0 && <span className="hidden xl:inline text-muted-foreground">|</span>}
-              </li>
-            ))}
-          </div>
+          {categories.map((category, index) => (
+            <li key={category.name} className="flex items-center gap-4 xl:gap-8">
+              <Link
+                href={category.href}
+                className="text-sm font-medium border-transparent uppercase tracking-wide hover:text-primary transition-colors focus-visible"
+              >
+                {category.name}
+              </Link>
+              {index === 0 && <span className="hidden xl:inline text-muted-foreground">|</span>}
+            </li>
+          ))}
+
 
           <li className="xl:ml-auto flex items-center gap-4">
             {/* Desktop search - Made search bar wider and more accessible */}

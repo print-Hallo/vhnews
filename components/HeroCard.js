@@ -17,10 +17,16 @@ export default function HeroCard({ article, locale="fr" }) {
       <Link href={`/articles/${article.slug}`} className="block mb-6">
         {/* Hero Image */}
         <div className="relative aspect-[16/9] mb-6  overflow-hidden rounded-lg">
-          <Image
-            src={article.cover_image || "/placeholder.svg?height=400&width=700&query=news"}
+        <Image
+            src={article.cover_image.replace(
+              '/upload/',
+              '/upload/f_auto,q_auto,w_700/'
+            )}
             alt={article.title}
             fill
+            sizes="(max-width: 640px) 100vw,
+                  (max-width: 1024px) 50vw,
+                  348px"
             className="object-cover transition-transform duration-300 group-hover:scale-105"
             priority
           />

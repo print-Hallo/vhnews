@@ -53,7 +53,7 @@ export default async function HomePage({ searchParams }) {
     <div className="min-h-screen bg-background">
       <Header />
 
-      <main className="container mx-auto px-4 py-8">
+      <main className="container mx-auto px-0 py-8">
         {/* Desktop Layout: 3-column grid */}
         <div className="hidden lg:grid lg:grid-cols-[20%_56%_20%] h-[calc(100vh-4rem)] lg:gap-8 mb-12">
           {/* Left Sidebar */}
@@ -119,9 +119,9 @@ export default async function HomePage({ searchParams }) {
           </section>
 
           {/* Other Articles */}
-          <section className="px-8 md:px-0">
-            <div className="border-b border-border pb-4 mb-6">
-              <h2 className="text-lg font-semibold uppercase tracking-wide">{t("home.moreArticles")}</h2>
+          <section >
+            <div className="border-b border-border pb-4 mb-12 mt-12">
+              <h2 className="text-lg text-center font-semibold uppercase tracking-wide">{t("home.moreArticles")}</h2>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {[...sidebarArticles, ...normalArticles].slice(0, 8).map((article) => (

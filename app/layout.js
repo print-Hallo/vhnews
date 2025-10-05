@@ -97,12 +97,19 @@ export default function RootLayout({ children, params }) {
           }}
         />
         <link rel="preconnect" href="https://fonts.googleapis.com"/>
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+        <link rel="preconnect" href="https://fonts.gstatic.com"/>
         <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet"/>
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="alternate" type="application/rss+xml" title="VH News RSS Feed" href="/rss.xml" />
         <link rel="alternate" type="application/atom+xml" title="VH News Atom Feed" href="/feed.xml" />
-        <link rel="stylesheet"href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css"/>
+        <link
+          rel="preload"
+          href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css"
+          as="style"
+        />
+        <noscript>
+          <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css" />
+        </noscript>
         {/* canonical */}
         
         <link rel="canonical" href={`${baseUrl}${localizedPaths[locale]}`} />
