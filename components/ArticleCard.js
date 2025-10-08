@@ -1,7 +1,9 @@
+"use client"
+
 import Link from "next/link"
 import Image from "next/image"
 import { Calendar, Clock, User } from "lucide-react"
-
+import { useTranslation } from "@/lib/i18n/client-translations"
 export default function ArticleCard({ article, variant = "default", locale = "fr" }) {
   if (!article) return null
 
@@ -13,7 +15,15 @@ export default function ArticleCard({ article, variant = "default", locale = "fr
       ...(locale === "en" ? {} : { year: "numeric" })
     }
   )
-
+  const { t } = useTranslation()
+  /*Categories list of objects with equivalent translations based on the DB article.category*/
+  let categories = [
+    {name: "SOCIOLOGIE", equivalent: t("nav.sociology") },
+    {name: "STEM", equivalent: t("nav.stem") },
+    {name: "POLITIQUE", equivalent: t("nav.politics") },
+    {name: "DIVERS", equivalent: t("nav.misc") },
+  ]
+  const categoryTranslation = categories.find(cat => cat.name === article.category)?.equivalent || article.category
 
   return (
     <article className="group border border-border  rounded-lg overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1 bg-card">
@@ -28,7 +38,7 @@ export default function ArticleCard({ article, variant = "default", locale = "fr
           />
           <div className="absolute top-2 left-2">
             <span className="inline-block px-2 py-1 text-xs font-semibold uppercase tracking-wide text-white bg-primary/90 rounded">
-              {article.category}
+              {categoryTranslation}
             </span>
           </div>
         </div>

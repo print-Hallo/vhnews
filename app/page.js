@@ -137,7 +137,7 @@ export default async function HomePage({ searchParams }) {
       {/* Footer */}
       <footer className="border-t border-border py-2">
         <div className="container mx-auto px-4 text-center text-sm text-muted-foreground">
-          <p>&copy; 2025 {t("home.copyright")}</p>
+          <p>&copy; 2025 {t("home.copyright")} <a href="https://github.com/print-Hallo">printHallo</a></p>
         </div>
       </footer>
     </div>

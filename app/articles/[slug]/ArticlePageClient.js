@@ -70,9 +70,9 @@ export default function ArticlePageClient({ article, relatedArticles, locale="fr
     <div className="min-h-screen bg-background">
       <Header />
 
-      <main className="container mx-auto px-0 md:px-4 py-8">
+      <main className="container mx-auto py-8">
         <nav className="mb-6" aria-label="Breadcrumb">
-          <ol className="flex items-center px-4 space-x-2 text-sm text-muted-foreground">
+          <ol className="flex items-center px-8 space-x-2 text-sm text-muted-foreground">
             <li>
               <Link href="/" className="hover:text-primary transition-colors">
               {t("paths.home")}
@@ -103,7 +103,7 @@ export default function ArticlePageClient({ article, relatedArticles, locale="fr
             </div>
 
             {/* Title and Dek */}
-            <h1 className="font-medium prose text-3xl md:text-4xl lg:text-6xl leading-tight mb-4">{article.title}</h1>
+            <h1 className="font-medium prose text-3xl md:text-4xl lg:text-6xl leading-tight  mb-4">{article.title}</h1>
 
             {article.dek && <p className="text-xl text-muted-foreground leading-relaxed mb-6">{article.dek}</p>}
 
@@ -213,7 +213,7 @@ export default function ArticlePageClient({ article, relatedArticles, locale="fr
 
         {/* Related Articles */}
         {relatedArticles.length > 0 && (
-          <section className="max-w-4xl mx-auto mt-16">
+          <section className="max-w-4xl px-8 md:px-0 mx-auto mt-16">
             <div className="border-t border-border pt-8">
               <h2 className="text-2xl font-bold mb-8">{t("home.related_Articles")}</h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

@@ -10,7 +10,15 @@ export default function HeroCard({ article, locale="fr" }) {
     month: "long",
     day: "numeric",
   })
+
   const { t } = useTranslation()
+  let categories = [
+    {name: "SOCIOLOGIE", equivalent: t("nav.sociology") },
+    {name: "STEM", equivalent: t("nav.stem") },
+    {name: "POLITIQUE", equivalent: t("nav.politics") },
+    {name: "DIVERS", equivalent: t("nav.misc") },
+  ]
+  const categoryTranslation = categories.find(cat => cat.name === article.category)?.equivalent || article.category
   return (
     
     <article className="group px-8 lg:px-0 ">
@@ -35,14 +43,14 @@ export default function HeroCard({ article, locale="fr" }) {
           {/* Category badge */}
           <div className="absolute top-4 left-4">
             <span className="inline-block px-3 py-1 text-xs font-semibold uppercase tracking-wide text-white bg-primary rounded-full">
-              {article.category}
+              {categoryTranslation}
             </span>
           </div>
         </div>
 
         {/* Content */}
         <div className="space-y-4">
-          <h1 className="headline prose text-3xl md:text-4xl lg:text-5xl leading-tight group-hover:text-primary transition-colors">
+          <h1 className="headline prose text-3xl  md:text-4xl lg:text-5xl leading-tight group-hover:text-primary transition-colors">
             {article.title}
           </h1>
 
