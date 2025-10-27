@@ -13,4 +13,4 @@ jobs:
     steps:
       - name: Call scheduled API
         run: |
-          curl -X POST https://vhnews.com/api/cron/publish-scheduled
+          curl -X POST https://vhnews.tn/api/cron/publish-scheduled
