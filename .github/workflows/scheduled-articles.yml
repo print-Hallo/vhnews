@@ -1,9 +1,9 @@
 name: Publish Scheduled Articles
 
-# Trigger every 30 minutes
+# Trigger every minute
 on:
   schedule:
-    - cron: '* * * * *'  # every 30 minutes
+    - cron: '*/5 * * * *'  # every minute
   workflow_dispatch:        # allows manual trigger from GitHub UI
 
 jobs:
