@@ -15,6 +15,29 @@ export async function POST(request) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 })
     }
 
+    // Handle scheduled articles
+    if (articleData.status === "scheduled") {
+      if (!articleData.scheduled_for) {
+        return NextResponse.json({ error: "scheduled_for date is required for scheduled articles" }, { status: 400 })
+      }
+
+      // Optional: Ensure scheduled_for is in the future
+      const scheduledDate = new Date(articleData.scheduled_for)
+      if (scheduledDate <= new Date()) {
+        return NextResponse.json({ error: "scheduled_for must be in the future" }, { status: 400 })
+      }
+
+      // Leave status as "scheduled" in DB
+      articleData.published_at = null
+    } else if (articleData.status === "published") {
+      articleData.published_at = new Date().toISOString()
+      articleData.scheduled_for = null
+    } else {
+      // draft
+      articleData.published_at = null
+      articleData.scheduled_for = null
+    }
+
     const article = await saveArticle(articleData)
     return NextResponse.json(article)
   } catch (error) {
@@ -22,6 +45,7 @@ export async function POST(request) {
     return NextResponse.json({ error: "Failed to create article" }, { status: 500 })
   }
 }
+
 
 export async function GET(request) {
   if (!validateAdminToken(request)) {

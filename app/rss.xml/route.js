@@ -39,8 +39,8 @@ export async function GET() {
     <language>en-us</language>
     <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>
     <atom:link href="${baseUrl}/rss.xml" rel="self" type="application/rss+xml"/>
-    <managingEditor> aymen.zlitni.tn@gmail.com (VHNews Editor)</managingEditor>
-    <webMaster> aymen.zlitni.tn@gmail.com (VHNews Webmaster)</webMaster>
+    <managingEditor> printHallo@gmail.com (VHNews Editor)</managingEditor>
+    <webMaster> printHallo@gmail.com (VHNews Webmaster)</webMaster>
     <ttl>60</ttl>
     ${rssItems}
   </channel>

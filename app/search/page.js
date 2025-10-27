@@ -35,7 +35,7 @@ export default async function SearchPage({ searchParams }) {
             <h1 className="headline text-4xl md:text-5xl mb-4">{t("search.result_title")}</h1>
             {query && (
               <p className="text-lg text-muted-foreground">
-            {data.total > 0 ? `${data.total} ${t("search.results_for")} "${query}"` : `${t("search.no_results_for")} "${query}"`}
+            {data.total > 0 ? `${data.total} ${t("search.results_for")} "${query}"` : `${t("search.no_results")} "${query}"`}
               </p>
             )}
             {!query && <p className="text-lg text-muted-foreground">{t("search.nothing_written")}</p>}
