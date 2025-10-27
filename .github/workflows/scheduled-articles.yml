@@ -1,0 +1,16 @@
+name: Publish Scheduled Articles
+
+# Trigger every 30 minutes
+on:
+  schedule:
+    - cron: '*/1 * * * *'  # every 30 minutes
+  workflow_dispatch:        # allows manual trigger from GitHub UI
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Call scheduled API
+        run: |
+          curl -X POST https://vhnews.com/api/cron/publish-scheduled
