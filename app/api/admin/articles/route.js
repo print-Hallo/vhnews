@@ -21,7 +21,6 @@ export async function POST(request) {
         return NextResponse.json({ error: "scheduled_for date is required for scheduled articles" }, { status: 400 })
       }
 
-      // Optional: Ensure scheduled_for is in the future
       const scheduledDate = new Date(articleData.scheduled_for)
       if (scheduledDate <= new Date()) {
         return NextResponse.json({ error: "scheduled_for must be in the future" }, { status: 400 })

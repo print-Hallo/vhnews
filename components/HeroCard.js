@@ -17,6 +17,7 @@ export default function HeroCard({ article, locale="fr" }) {
     {name: "STEM", equivalent: t("nav.stem") },
     {name: "POLITIQUE", equivalent: t("nav.politics") },
     {name: "DIVERS", equivalent: t("nav.misc") },
+    {name: "PHILOSOPHIE", equivalent: t("nav.philosophy")}
   ]
   const categoryTranslation = categories.find(cat => cat.name === article.category)?.equivalent || article.category
   return (

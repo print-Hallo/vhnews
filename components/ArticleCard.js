@@ -21,6 +21,7 @@ export default function ArticleCard({ article, variant = "default", locale = "fr
     {name: "SOCIOLOGIE", equivalent: t("nav.sociology") },
     {name: "STEM", equivalent: t("nav.stem") },
     {name: "POLITIQUE", equivalent: t("nav.politics") },
+    {name: "PHILOSOPHY", equivalent: t("nav.philosophy") },
     {name: "DIVERS", equivalent: t("nav.misc") },
   ]
   const categoryTranslation = categories.find(cat => cat.name === article.category)?.equivalent || article.category

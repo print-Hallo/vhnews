@@ -38,6 +38,18 @@ export default async function sitemap() {
       priority: 0.8,
     },
     {
+      url: `${baseUrlFr}/category/PHILOSOPHIE`,
+      lastModified: new Date(),
+      changeFrequency: "daily",
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrlEn}/category/PHILOSOPHIE`,
+      lastModified: new Date(),
+      changeFrequency: "daily",
+      priority: 0.8,
+    },
+    {
       url: `${baseUrlFr}/category/POLITIQUE`,
       lastModified: new Date(),
       changeFrequency: "daily",

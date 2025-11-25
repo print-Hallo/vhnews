@@ -22,6 +22,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import { Plus, Edit, Trash2, Eye, LogOut, Search, Images, Palette } from "lucide-react"
+import { SelectItemText } from "@radix-ui/react-select"
 
 export default function AdminDashboard({ initialData, filters }) {
   const router = useRouter()
@@ -247,6 +248,7 @@ export default function AdminDashboard({ initialData, filters }) {
                 <SelectItem value="POLITIQUE">{t("nav.politics")}</SelectItem>
                 <SelectItem value="SOCIOLOGIE">{t("nav.sociology")}</SelectItem>
                 <SelectItem value="DIVERS">{t("nav.misc")}</SelectItem>
+                <SelectItem value="PHILOSOPHIE">{t("nav.philosophy")}</SelectItem>
               </SelectContent>
             </Select>
           </div>

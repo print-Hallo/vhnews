@@ -4,34 +4,48 @@ import Header from "@/components/Header"
 import InfiniteArticleList from "@/components/InfiniteArticleList"
 import { getServerTranslations, defaultLanguage } from "@/lib/i18n/server-translations"
 
-const validCategories = ["STEM", "POLITIQUE", "SOCIOLOGIE", "DIVERS"]
+const validCategories = ["STEM", "POLITIQUE", "SOCIOLOGIE", "DIVERS", "PHILOSOPHIE"]
+const categorySlugMap = {
+  philosophie: "philosophy",
+  politique: "politics",
+  sociologie: "sociology",
+  stem: "stem",
+  divers: "miscellaneous",
+}
 
 export async function generateMetadata({ params }) {
-  const category = params.category.toUpperCase()
+  const categorySlug = params.category.toLowerCase()
+  const categoryKey = categorySlugMap[categorySlug]
 
-  if (!validCategories.includes(category)) {
+  if (!categoryKey) {
     return {
       title: "Category Not Found",
     }
   }
 
+  const { t } = await getServerTranslations()
+  const categoryName = t(`nav.${categoryKey}`)
+
   return {
-    title: `${category} - VHNews`,
-    description: `Latest articles in ${category.toLowerCase()} category`,
+    title: `${categoryName} - VHNews`,
+    description: `Latest articles in ${categoryName} category`,
   }
 }
 
 export default async function CategoryPage({ params }) {
   const { t, locale } = await getServerTranslations()
-  const category = params.category.toUpperCase()
 
-  if (!validCategories.includes(category)) {
-    notFound()
-  }
+  const categorySlug = params.category.toLowerCase()
+  const categoryKey = categorySlugMap[categorySlug]
+
+  if (!categoryKey) notFound()
+
+  const categoryName = t(`nav.${categoryKey}`)
+  const categoryForAPI = categorySlug.toUpperCase() // keep uppercase for DB/API
 
   // Get initial articles for this category
   const data = await getArticles({
-    category,
+    category: categoryForAPI,
     limit: 12,
     page: 1,
   })
@@ -44,8 +58,8 @@ export default async function CategoryPage({ params }) {
         <div className="max-w-4xl mx-auto">
           {/* Page Header */}
           <header className="mb-12">
-            <h1 className="headline text-4xl md:text-5xl mb-4">{category}</h1>
-            <p className="text-lg text-muted-foreground">{t("category.subhead")} {category.toLowerCase()}</p>
+            <h1 className="headline text-4xl md:text-5xl mb-4">{categoryName}</h1>
+            <p className="text-lg text-muted-foreground">{t("category.subhead")} {categoryName}</p>
           </header>
 
           {/* Articles */}
@@ -54,7 +68,7 @@ export default async function CategoryPage({ params }) {
               initialArticles={data.articles}
               initialPage={data.page}
               initialTotalPages={data.totalPages}
-              category={category}
+              category={categoryForAPI}
             />
           ) : (
             <div className="text-center py-12">

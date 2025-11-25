@@ -188,20 +188,25 @@
   }
 
   .prose h1 {
-    @apply mb-6 mt-8;
+    @apply mb-8 mt-8;
     font-size: 3rem; /* default for large screens */
   }
   
   .prose h2 {
-    @apply mb-4 mt-6;
+    @apply mb-6 mt-6;
     font-size: 2.5rem;
   }
   
   .prose h3 {
-    @apply mb-3 mt-5;
+    @apply mb-5 mt-5;
     font-size: 2rem;
   }
-  
+  .prose h4 {
+    @apply mb-3 mt-3
+  }
+  .prose h5 {
+    @apply mb-2 mt-2
+  }
   /* Medium screens */
   @media (max-width: 1024px) {
     .prose h1 {
@@ -257,6 +262,16 @@
     transition: opacity 0.2s ease, transform 0.2s ease;
     z-index: 50;
   }
+  .prose ul {
+    @apply list-disc ml-6 mb-4;
+  }
+  
+  .prose ol {
+    @apply list-decimal ml-6 mb-4;
+  }
+  .prose li {
+    @apply mb-1;
+  }
   
   /* Show tooltip on hover */
   .tooltip:hover::after {
@@ -271,7 +286,10 @@
       padding: 8px 12px;
     }
   }
-  
+  .prose ol li::marker {
+    font-weight: 700; 
+    font-size: 1.25em;
+  }
   .prose p {
     @apply mb-4 leading-relaxed;
   }

@@ -392,6 +392,7 @@ export default function ArticleEditor({ article = null }) {
                       <SelectItem value="POLITIQUE">POLITIQUE</SelectItem>
                       <SelectItem value="SOCIOLOGIE">SOCIOLOGIE</SelectItem>
                       <SelectItem value="DIVERS">DIVERS</SelectItem>
+                      <SelectItem value="PHILOSOPHIE">PHILOSOPHIE</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>

@@ -25,6 +25,8 @@ export default function Header() {
     { name: t("nav.politics"), href: "/category/POLITIQUE" },
     { name: t("nav.sociology"), href: "/category/SOCIOLOGIE" },
     { name: t("nav.misc"), href: "/category/DIVERS" },
+    { name: t("nav.philosophy"), href: "/category/PHILOSOPHIE" },
+
   ]
 
   const handleSearch = (e) => {
