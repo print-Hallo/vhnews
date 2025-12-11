@@ -17,12 +17,29 @@ export default function ArticlePageClient({ article, relatedArticles, locale="fr
   }
   const {t} = useTranslation()
   const [contentHtml, setContentHtml] = useState("")
+  const [contentHtmlEn, setContentHtmlEn] = useState("")
+  const [contentHtmlFr, setContentHtmlFr] = useState("")
+  const [currentLang, setCurrentLang] = useState("")
   const [shareUrl, setShareUrl] = useState("")
 
   useEffect(() => {
+    const pathLang = window.location.pathname.split('/')[1]
+    setCurrentLang(pathLang === 'en' || pathLang === 'fr' ? pathLang : 'fr')
+  }, [])
+  console.log(currentLang)
+  useEffect(() => {
     const convertMarkdown = async () => {
-      const html = await markdownToHtml(article.content_markdown)
-      setContentHtml(html)
+      if (article.language === "bi") {
+        // Split content by %//%
+        const [enContent, frContent] = article.content_markdown.split('%//%')
+        const htmlEn = await markdownToHtml(enContent || "")
+        const htmlFr = await markdownToHtml(frContent || "")
+        setContentHtmlEn(htmlEn)
+        setContentHtmlFr(htmlFr)
+      } else {
+        const html = await markdownToHtml(article.content_markdown)
+        setContentHtml(html)
+      }
     }
     convertMarkdown()
 
@@ -44,7 +61,6 @@ export default function ArticlePageClient({ article, relatedArticles, locale="fr
     structuredDataScript.type = "application/ld+json"
     structuredDataScript.textContent = JSON.stringify(structuredData)
     document.head.appendChild(structuredDataScript)
-
     const breadcrumbScript = document.createElement("script")
     breadcrumbScript.type = "application/ld+json"
     breadcrumbScript.textContent = JSON.stringify(breadcrumbData)
@@ -56,7 +72,7 @@ export default function ArticlePageClient({ article, relatedArticles, locale="fr
       document.head.removeChild(breadcrumbScript)
     }
   }, [article])
-
+  console.log("aaa", locale)
   const publishedDate = new Date(article.published_at).toLocaleDateString(
     locale === "en" ? "en-GB" : "fr-FR", 
     {
@@ -130,53 +146,78 @@ export default function ArticlePageClient({ article, relatedArticles, locale="fr
               </div>
 
             </div>
-
-            {/* Share Buttons */}
-            <div className="flex items-center gap-2 mb-8">
-              <span className="text-sm font-medium">{t("general.share")}:</span>
-              <div className="flex gap-2">
-                <Button
-                  size="sm"
-                  variant="outline"
-                  onClick={() =>
-                    window.open(
-                      `https://twitter.com/intent/tweet?text=${encodeURIComponent(article.title)}&url=${encodeURIComponent(shareUrl)}`,
-                      "_blank",
-                    )
-                  }
-                  aria-label="Share on Twitter"
-                >
-                  <Twitter className="h-4 w-4" />
-                </Button>
-                <Button
-                  size="sm"
-                  variant="outline"
-                  onClick={() =>
-                    window.open(
-                      `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`,
-                      "_blank",
-                    )
-                  }
-                  aria-label="Share on Facebook"
-                >
-                  <Facebook className="h-4 w-4" />
-                </Button>
-                <Button
-                  size="sm"
-                  variant="outline"
-                  onClick={() =>
-                    window.open(
-                      `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`,
-                      "_blank",
-                    )
-                  }
-                  aria-label="Share on LinkedIn"
-                >
-                  <Linkedin className="h-4 w-4" />
-                </Button>
+            <div className="flex items-center gap-4">
+              {/* Share Buttons */}
+              <div className="flex items-center gap-2">
+                <span className="text-sm font-medium">{t("general.share")}:</span>
+                <div className="flex gap-2">
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={() =>
+                      window.open(
+                        `https://twitter.com/intent/tweet?text=${encodeURIComponent(article.title)}&url=${encodeURIComponent(shareUrl)}`,
+                        "_blank",
+                      )
+                    }
+                    aria-label="Share on Twitter"
+                  >
+                    <Twitter className="h-4 w-4" />
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={() =>
+                      window.open(
+                        `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`,
+                        "_blank",
+                      )
+                    }
+                    aria-label="Share on Facebook"
+                  >
+                    <Facebook className="h-4 w-4" />
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={() =>
+                      window.open(
+                        `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`,
+                        "_blank",
+                      )
+                    }
+                    aria-label="Share on LinkedIn"
+                  >
+                    <Linkedin className="h-4 w-4" />
+                  </Button>
+                </div>
               </div>
+              {
+              article.language == "bi" && (
+                <div className="flex items-center gap-2">
+                  <span className="text-sm font-medium">{t("general.arti_languages")}</span>
+                  <Button
+                    size="sm"
+                    variant={currentLang === "en" ? "default" : "outline"}
+                    onClick={() => setCurrentLang("en")}
+                    aria-label="Switch language to English"
+                  >
+                    EN
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant={currentLang === "fr" ? "default" : "outline"}
+                    onClick={() => setCurrentLang("fr")}
+                    aria-label="Switch language to French"
+                  >
+                    FR
+                  </Button>
+                </div>
+              )
+            }
             </div>
-          </header>
+            </header>
+            {/* Article language switch - condition: if language is BI (bilingual) */}
 
           {/* Cover Image */}
           {article.cover_image && (
@@ -194,7 +235,9 @@ export default function ArticlePageClient({ article, relatedArticles, locale="fr
           {/* Article Content */}
           <div
             className="article-content text-justify prose max-w-none"
-            dangerouslySetInnerHTML={{ __html: contentHtml }}
+            dangerouslySetInnerHTML={{     __html: article.language === "bi" 
+              ? (currentLang === "en" ? contentHtmlEn : contentHtmlFr)
+              : contentHtml  }}
           />
 
           {/* Tags */}

@@ -406,6 +406,7 @@ export default function ArticleEditor({ article = null }) {
                     <SelectContent>
                       <SelectItem value="fr">{t("editor.french")}</SelectItem>
                       <SelectItem value="en">{t("editor.english")}</SelectItem>
+                      <SelectItem value="bi">{t("editor.bi")}</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
