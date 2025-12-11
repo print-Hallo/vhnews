@@ -4,7 +4,8 @@ import ArticlePageClient from "./ArticlePageClient"
 
 export async function generateMetadata({ params }) {
   const article = await getArticle(params.slug)
-
+  const articleLanguage = article.language || 'fr'
+  const baseUrl = "https://www.vhnews.tn"
   if (!article) {
     return {
       title: "Article Not Found",
@@ -29,9 +30,16 @@ export async function generateMetadata({ params }) {
       description: article.meta_description || article.excerpt,
       images: article.cover_image ? [article.cover_image] : [],
     },
+    alternates: {
+      canonical: `${baseUrl}/${articleLanguage}/articles/${params.slug}`,
+      languages: {
+        'fr': `${baseUrl}/fr/articles/${params.slug}`,
+        'en': `${baseUrl}/en/articles/${params.slug}`,
+        'x-default': `${baseUrl}/${articleLanguage}/articles/${params.slug}`,
+      },
   }
 }
-
+}
 export default async function ArticlePage({ params }) {
   const article = await getArticle(params.slug)
 
@@ -39,7 +47,6 @@ export default async function ArticlePage({ params }) {
     notFound()
   }
 
-  // Get related articles (same category, excluding current)
   const relatedData = await getArticles({
     category: article.category,
     limit: 4,

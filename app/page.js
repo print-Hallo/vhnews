@@ -5,12 +5,19 @@ import HeroCard from "@/components/HeroCard"
 import InfiniteArticleList from "@/components/InfiniteArticleList"
 import ArticleCard from "@/components/ArticleCard"
 const { t, locale } = await getServerTranslations()
-
+const baseUrl = "https://www.vhnews.tn"
 export const metadata = {
   title: t("general.title"),
   description: t("general.description"),
+  alternates: {
+    canonical: `${baseUrl}/fr`,
+    languages: {
+      'fr': `${baseUrl}/fr`,
+      'en': `${baseUrl}/en`,
+      'x-default': `${baseUrl}`,
+    },
 }
-
+}
 export default async function HomePage({ searchParams }) {
   // Get language from search params or use default
   const language = searchParams?.lang || defaultLanguage

@@ -7,7 +7,7 @@ import Image from "next/image"
 import Link from "next/link"
 import Header from "@/components/Header"
 import ArticleCard from "@/components/ArticleCard"
-import { Calendar, Clock, User, Facebook, Twitter, Linkedin } from "lucide-react"
+import { Calendar, Clock, User, Facebook, Twitter, Linkedin, Globe } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useEffect, useState } from "react"
 import { useTranslation } from "@/lib/i18n/client-translations"
@@ -117,13 +117,18 @@ export default function ArticlePageClient({ article, relatedArticles, locale="fr
                 <Calendar className="h-4 w-4" />
                 <time dateTime={article.published_at}>{publishedDate}</time>
               </div>
+              <div className="text-s flex items-center gap-2">
+                <Globe className="h-4 w-4"/>
+                {t("editor.language")}: {article.language.toUpperCase()}
+              </div>
               <div className="flex items-center gap-2">
                 <Clock className="h-4 w-4" />
                 <span>{article.read_time} {t("general.minRead")}</span>
               </div>
-              <div className="text-xs">
+              <div className="text-s">
                 <span>{article.word_count} {t("general.words")}</span>
               </div>
+
             </div>
 
             {/* Share Buttons */}

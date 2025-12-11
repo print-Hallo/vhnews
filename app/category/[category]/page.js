@@ -10,13 +10,13 @@ const categorySlugMap = {
   politique: "politics",
   sociologie: "sociology",
   stem: "stem",
-  divers: "miscellaneous",
+  divers: "misc",
 }
 
 export async function generateMetadata({ params }) {
   const categorySlug = params.category.toLowerCase()
   const categoryKey = categorySlugMap[categorySlug]
-
+  const baseUrl = "https://www.vhnews.tn"
   if (!categoryKey) {
     return {
       title: "Category Not Found",
@@ -29,7 +29,16 @@ export async function generateMetadata({ params }) {
   return {
     title: `${categoryName} - VHNews`,
     description: `Latest articles in ${categoryName} category`,
+    alternates: {
+      canonical: `${baseUrl}/fr/category/${categoryName}`,
+      languages: {
+        'fr': `${baseUrl}/fr/category/${categoryName}`,
+        'en': `${baseUrl}/en/category/${categoryName}`,
+        'x-default': `${baseUrl}/category/${categoryName}`,
+      },
   }
+  
+}
 }
 
 export default async function CategoryPage({ params }) {

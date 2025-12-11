@@ -4,11 +4,20 @@ import InfiniteArticleList from "@/components/InfiniteArticleList"
 
 export async function generateMetadata({ params }) {
   const tag = decodeURIComponent(params.tag)
+  const baseUrl = "https://www.vhnews.tn"
 
   return {
     title: `${tag} - News Site`,
     description: `Articles tagged with ${tag}`,
+    alternates: {
+      canonical: `${baseUrl}/fr/tag/${tag}`,
+      languages: {
+        'fr': `${baseUrl}/fr/tag/${tag}`,
+        'en': `${baseUrl}/en/tag/${tag}`,
+        'x-default': `${baseUrl}/tag/${tag}`,
+      },
   }
+}
 }
 
 export default async function TagPage({ params }) {

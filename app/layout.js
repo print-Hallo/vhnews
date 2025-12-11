@@ -110,15 +110,15 @@ export default function RootLayout({ children, params }) {
         <noscript>
           <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css" />
         </noscript>
-        {/* canonical */}
         
-        <link rel="canonical" href={`${baseUrl}${localizedPaths[locale]}`} />
+        {/*<link rel="canonical" href={`${baseUrl}${localizedPaths[locale]}`} />
 
-        {/* hreflang */}
+
         {locales.map((loc) => (
           <link key={loc} rel="alternate" href={`${baseUrl}${localizedPaths[loc]}`} hrefLang={loc} />
         ))}
         <link rel="alternate" href={baseUrl} hrefLang="x-default" />
+        */}
       </head>
       <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable}`}>
         <ThemeProvider>

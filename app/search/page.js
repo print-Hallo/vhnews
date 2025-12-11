@@ -6,13 +6,21 @@ import { getServerTranslations, defaultLanguage } from "@/lib/i18n/server-transl
 export async function generateMetadata({ searchParams }) {
   const query = searchParams.q || ""
   const {t, locale} = await getServerTranslations()
+  const baseUrl = "https://www.vhnews.tn"
 
   return {
     title: query ? `Search: ${query} - News Site` : "Search - News Site",
     description: query ? `${t("search.search_results_for")} "${query}"` : `${t("search.search_articles")}`,
+    alternates: {
+      canonical: `${baseUrl}/fr/search?q=${query}`,
+      languages: {
+        'fr': `${baseUrl}/fr/search?q=${query}`,
+        'en': `${baseUrl}/en/search?q=${query}`,
+        'x-default': `${baseUrl}/search?q=${query}`,
+      },
   }
 }
-
+}
 export default async function SearchPage({ searchParams }) {
   const query = searchParams.q || ""
 
