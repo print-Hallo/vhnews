@@ -4,18 +4,43 @@ import Link from "next/link"
 import Image from "next/image"
 import { Calendar, Clock, User } from "lucide-react"
 import { useTranslation } from "@/lib/i18n/client-translations"
+import { useEffect, useState } from "react"
 export default function ArticleCard({ article, variant = "default", locale = "fr" }) {
   if (!article) return null
 
+
+  const { t } = useTranslation()
+  const [titleEn, setTitleEn] = useState("")
+  const [titleFr, setTitleFr] = useState("")
+  const [excerptEn, setExcerptEn] = useState("")
+  const [excerptFr, setExcerptFr] = useState("")
+  const [currentLang, setCurrentLang] = useState("")
   const publishedDate = new Date(article.published_at).toLocaleDateString(
-    locale === "en" ? "en-GB" : "fr-FR", 
+    currentLang === "en" ? "en-GB" : "fr-FR", 
     {
       day: "numeric",
       month: "short",
       ...(locale === "en" ? {} : { year: "numeric" })
     }
   )
-  const { t } = useTranslation()
+  useEffect(() => {
+    const pathLang = window.location.pathname.split('/')[1]
+    setCurrentLang(pathLang === 'en' || pathLang === 'fr' ? pathLang : 'fr')
+
+    // Handle bilingual title
+    if (article.language === "bi" && article.title.includes('%//%')) {
+      const titleParts = article.title.split('%//%')
+      setTitleEn(titleParts[0])
+      setTitleFr(titleParts[1])
+    }
+
+    // Handle bilingual excerpt
+    if (article.language === "bi" && article.excerpt && article.excerpt.includes('%//%')) {
+      const excerptParts = article.excerpt.split('%//%')
+      setExcerptEn(excerptParts[0])
+      setExcerptFr(excerptParts[1])
+    }
+  }, [article])
   /*Categories list of objects with equivalent translations based on the DB article.category*/
   let categories = [
     {name: "SOCIOLOGIE", equivalent: t("nav.sociology") },
@@ -47,11 +72,16 @@ export default function ArticleCard({ article, variant = "default", locale = "fr
         {/* Content */}
         <div className="p-4 space-y-3">
           <h3 className="headline prose text-lg lg:text-2xl md: text-xl leading-tight line-clamp-2 group-hover:text-primary transition-colors">
-            {article.title}
-          </h3>
+              {article.language === "bi" 
+                ? (currentLang === "en" ? titleEn : titleFr) || article.title
+                : article.title}
+            </h3>
 
-          <p className="text-lg prose text-muted-foreground mr-4  line-clamp-3 leading-relaxed">{article.excerpt}</p>
-
+            <p className="text-lg prose text-muted-foreground mr-4  line-clamp-3 leading-relaxed">
+            {article.language === "bi"
+              ? (currentLang === "en" ? excerptEn : excerptFr) || article.excerpt
+              : article.excerpt}
+            </p>
           {/* Metadata */}
           <div className="flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
             <div className="flex items-center gap-1">

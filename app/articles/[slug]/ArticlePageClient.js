@@ -16,6 +16,10 @@ export default function ArticlePageClient({ article, relatedArticles, locale="fr
     notFound()
   }
   const {t} = useTranslation()
+  const [titleEn, setTitleEn] = useState("")
+  const [titleFr, setTitleFr] = useState("")
+  const [dekEn, setDekEn] = useState("")
+  const [dekFr, setDekFr] = useState("")
   const [contentHtml, setContentHtml] = useState("")
   const [contentHtmlEn, setContentHtmlEn] = useState("")
   const [contentHtmlFr, setContentHtmlFr] = useState("")
@@ -30,6 +34,19 @@ export default function ArticlePageClient({ article, relatedArticles, locale="fr
   useEffect(() => {
     const convertMarkdown = async () => {
       if (article.language === "bi") {
+        // Handle bilingual title
+        if (article.title.includes('%//%')) {
+          const titleParts = article.title.split('%//%')
+          setTitleEn(titleParts[0])
+          setTitleFr(titleParts[1])
+        }
+
+        // Handle bilingual dek/subheadline
+        if (article.dek && article.dek.includes('%//%')) {
+          const dekParts = article.dek.split('%//%')
+          setDekEn(dekParts[0])
+          setDekFr(dekParts[1])
+        }
         // Split content by %//%
         const [enContent, frContent] = article.content_markdown.split('%//%')
         const htmlEn = await markdownToHtml(enContent || "")
@@ -101,7 +118,10 @@ export default function ArticlePageClient({ article, relatedArticles, locale="fr
               </Link>
             </li>
             <li>/</li>
-            <li className="text-foreground font-medium truncate">{article.title}</li>
+            <li className="text-foreground font-medium truncate">              {article.language === "bi" 
+                ? (currentLang === "en" ? titleEn : titleFr) || article.title
+                : article.title}
+            </li>
           </ol>
         </nav>
 
@@ -119,10 +139,18 @@ export default function ArticlePageClient({ article, relatedArticles, locale="fr
             </div>
 
             {/* Title and Dek */}
-            <h1 className="font-medium prose text-3xl md:text-4xl lg:text-6xl leading-tight  mb-4">{article.title}</h1>
-
-            {article.dek && <p className="text-xl text-muted-foreground leading-relaxed mb-6">{article.dek}</p>}
-
+            <h1 className="font-medium prose text-3xl md:text-4xl lg:text-6xl leading-tight  mb-4">
+              {article.language === "bi" 
+                ? (currentLang === "en" ? titleEn : titleFr) || article.title
+                : article.title}
+            </h1>
+            {article.dek && (
+              <p className="text-xl text-muted-foreground leading-relaxed mb-6">
+                {article.language === "bi"
+                  ? (currentLang === "en" ? dekEn : dekFr) || article.dek
+                  : article.dek}
+              </p>
+            )}
             {/* Metadata */}
             <div className="flex flex-wrap items-center gap-6 text-sm text-muted-foreground mb-6">
               <div className="flex items-center gap-2">
