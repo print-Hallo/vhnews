@@ -7,7 +7,7 @@ import Image from "next/image"
 import Link from "next/link"
 import Header from "@/components/Header"
 import ArticleCard from "@/components/ArticleCard"
-import { Calendar, Clock, User, Facebook, Twitter, Linkedin, Globe } from "lucide-react"
+import { Calendar, Clock, User, Facebook, Twitter, Linkedin, Globe, Languages, Pen } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useEffect, useState } from "react"
 import { useTranslation } from "@/lib/i18n/client-translations"
@@ -15,6 +15,15 @@ export default function ArticlePageClient({ article, relatedArticles, locale="fr
   if (!article || article.status !== "published") {
     notFound()
   }
+  const getTitles = () => {
+    if (article.language === "bi" && article.title.includes('%//%')) {
+      const [en, fr] = article.title.split('%//%')
+      return { en, fr }
+    }
+    return { en: article.title, fr: article.title }
+  }
+
+  const titles = getTitles()
   const {t} = useTranslation()
   const [titleEn, setTitleEn] = useState("")
   const [titleFr, setTitleFr] = useState("")
@@ -68,7 +77,12 @@ export default function ArticlePageClient({ article, relatedArticles, locale="fr
       [
         { name: t("paths.home"), url: "/" },
         { name: article.category, url: `/category/${article.category}` },
-        { name: article.title, url: `/articles/${article.slug}` },
+        { 
+          name: article.language === "bi" 
+            ? (currentLang === "en" ? titles.en : titles.fr) || article.title
+            : article.title, 
+          url: `/articles/${article.slug}` 
+        },
       ],
       baseUrl,
     )
@@ -98,14 +112,21 @@ export default function ArticlePageClient({ article, relatedArticles, locale="fr
       ...(locale === "en" ? {} : { year: "numeric" })
     }
   )
-
+  const publishedDateShort = new Date(article.published_at).toLocaleDateString(
+    locale === "en" ? "en-GB" : "fr-FR",
+    {
+      day: "2-digit",
+      month: "2-digit",
+      year: "2-digit"
+    }
+  )
   return (
     <div className="min-h-screen bg-background">
       <Header />
 
       <main className="container mx-auto py-8">
         <nav className="mb-6" aria-label="Breadcrumb">
-          <ol className="flex items-center px-8 space-x-2 text-sm text-muted-foreground">
+          <ol className="flex items-center px-4 md:px-8 space-x-2 text-sm text-muted-foreground">
             <li>
               <Link href="/" className="hover:text-primary transition-colors">
               {t("paths.home")}
@@ -125,7 +146,7 @@ export default function ArticlePageClient({ article, relatedArticles, locale="fr
           </ol>
         </nav>
 
-        <article className="max-w-4xl px-12 mx-auto">
+        <article className="max-w-4xl px-8 md:px-12 mx-auto">
           {/* Article Header */}
           <header className="mb-8">
             {/* Category */}
@@ -152,32 +173,51 @@ export default function ArticlePageClient({ article, relatedArticles, locale="fr
               </p>
             )}
             {/* Metadata */}
-            <div className="flex flex-wrap items-center gap-6 text-sm text-muted-foreground mb-6">
+            <div className="flex flex-wrap items-center gap-3 md:gap-6 text-xs md:text-sm text-muted-foreground mb-6">
               <div className="flex items-center gap-2">
                 <User className="h-4 w-4" />
-                <span>{t("general.by")} {article.author}</span>
+                <span><span className="hidden md:inline">{t("general.by")} </span>{article.author}</span>
               </div>
               <div className="flex items-center gap-2">
                 <Calendar className="h-4 w-4" />
-                <time dateTime={article.published_at}>{publishedDate}</time>
+                <time dateTime={article.published_at}>
+                  <span className="md:hidden">{publishedDateShort}</span>
+                  <span className="hidden md:inline">{publishedDate}</span>
+                </time>
               </div>
-              <div className="text-s flex items-center gap-2">
+              <div className="text-xs md:sm flex items-center gap-2">
                 <Globe className="h-4 w-4"/>
                 {t("editor.language")}: {article.language.toUpperCase()}
               </div>
               <div className="flex items-center gap-2">
                 <Clock className="h-4 w-4" />
-                <span>{article.read_time} {t("general.minRead")}</span>
+                <span><span className="hidden md:inline">{article.read_time} {t("general.minRead")}</span><span className="md:hidden">{article.read_time} min</span></span>
               </div>
               <div className="text-s">
                 <span>{article.word_count} {t("general.words")}</span>
               </div>
 
             </div>
-            <div className="flex items-center gap-4">
+            {(article.translator || article.editor) && (
+              <div className="flex flex-wrap items-center gap-3 md:gap-6 text-xs md:text-sm text-muted-foreground mb-6">
+                {article.translator && article.translator !== '' && (
+                  <div className="flex items-center gap-2">
+                    <Languages className="h-4 w-4"/>
+                    <span>{t("general.translated_by")} {article.translator}</span>
+                  </div>
+                )}
+                {article.editor && article.editor !== '' && (
+                  <div className="flex items-center gap-2">
+                    <Pen className="h-4 w-4"/>
+                    <span>{t("general.edited_by")} {article.editor}</span>
+                  </div>
+                )}
+              </div>
+            )}  
+            <div className="flex items-center gap-4 flex-wrap">
               {/* Share Buttons */}
-              <div className="flex items-center gap-2">
-                <span className="text-sm font-medium">{t("general.share")}:</span>
+              <div className="flex items-center flex-wrap gap-2">
+                <span className="text-xs md:text-sm font-medium">{t("general.share")}:</span>
                 <div className="flex gap-2">
                   <Button
                     size="sm"
@@ -222,8 +262,8 @@ export default function ArticlePageClient({ article, relatedArticles, locale="fr
               </div>
               {
               article.language == "bi" && (
-                <div className="flex items-center gap-2">
-                  <span className="text-sm font-medium">{t("general.arti_languages")}</span>
+                <div className="flex items-center flex-wrap gap-2">
+                  <span className="text-sm flex-wrap font-medium">{t("general.arti_languages")}</span>
                   <Button
                     size="sm"
                     variant={currentLang === "en" ? "default" : "outline"}

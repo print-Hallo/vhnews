@@ -29,6 +29,8 @@ export default function ArticleEditor({ article = null }) {
     excerpt: article?.excerpt || "",
     author: article?.author || "",
     author_id: article?.author_id || "",
+    editor: article?.editor || "",
+    translator: article?.translator || "",
     tags: article?.tags?.join(", ") || "",
     category: article?.category || "",
     status: article?.status || "draft",
@@ -443,7 +445,27 @@ export default function ArticleEditor({ article = null }) {
                     required
                   />
                 </div>
+                <div className="space-y-2">
+                  <Label htmlFor="editor">{t("editor.editor")}</Label>
+                  <Input
+                    id="editor"
+                    value={formData.editor}
+                    onChange={(e) => handleInputChange("editor", e.target.value)}
+                    placeholder={t("editor.editor")}
+                  />
+                </div>
 
+                {formData.language === "bi" && (
+                  <div className="space-y-2">
+                    <Label htmlFor="translator">{t("editor.translator")}</Label>
+                    <Input
+                      id="translator"
+                      value={formData.translator}
+                      onChange={(e) => handleInputChange("translator", e.target.value)}
+                      placeholder={t("editor.translator")}
+                    />
+                  </div>
+                )}
                 <div className="space-y-2">
                   <Label htmlFor="tags">{t("editor.tags")}</Label>
                   <Input
