@@ -3,7 +3,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { Calendar, Clock, User } from "lucide-react"
 import { useTranslation } from "@/lib/i18n/client-translations"
-import { useEffect, useState } from "react"
+import { useEffect, useState} from "react"
 export default function HeroCard({ article, locale="fr" }) {
   if (!article) return null
 
@@ -48,6 +48,8 @@ export default function HeroCard({ article, locale="fr" }) {
       setDekFr(dekParts[1])
     }
   }, [article])
+
+
   let categories = [
     {name: "SOCIOLOGIE", equivalent: t("nav.sociology") },
     {name: "STEM", equivalent: t("nav.stem") },
@@ -56,10 +58,12 @@ export default function HeroCard({ article, locale="fr" }) {
     {name: "PHILOSOPHIE", equivalent: t("nav.philosophy")}
   ]
   const categoryTranslation = categories.find(cat => cat.name === article.category)?.equivalent || article.category
+  const articleUrl = `/${currentLang || 'fr'}/articles/${article.slug}`
+
   return (
     
-    <article className="group px-8 lg:px-0 ">
-      <Link href={`/articles/${article.slug}`} className="block mb-6">
+    <article className="group px-8 lg:px-0 " >
+      <Link href={articleUrl} className="block mb-6">
         {/* Hero Image */}
         <div className="relative aspect-[16/9] mb-6  overflow-hidden rounded-lg">
         <Image

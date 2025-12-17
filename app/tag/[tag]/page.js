@@ -7,7 +7,7 @@ export async function generateMetadata({ params }) {
   const baseUrl = "https://www.vhnews.tn"
 
   return {
-    title: `${tag} - News Site`,
+    title: `${tag} - VHNews`,
     description: `Articles tagged with ${tag}`,
     alternates: {
       canonical: `${baseUrl}/fr/tag/${tag}`,

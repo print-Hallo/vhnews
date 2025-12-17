@@ -9,7 +9,7 @@ export async function generateMetadata({ searchParams }) {
   const baseUrl = "https://www.vhnews.tn"
 
   return {
-    title: query ? `Search: ${query} - News Site` : "Search - News Site",
+    title: query ? `Search: ${query} - VHNews` : "Search - VHNews",
     description: query ? `${t("search.search_results_for")} "${query}"` : `${t("search.search_articles")}`,
     alternates: {
       canonical: `${baseUrl}/fr/search?q=${query}`,

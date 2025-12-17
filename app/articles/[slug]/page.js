@@ -36,7 +36,7 @@ export async function generateMetadata({ params }) {
       title: "Article Not Found",
     }
   }
-
+  const localeForUrl = article.language === "bi" ? pathLang : articleLanguage
   return {
     title: displayTitle,
     description: metaDesc || article.excerpt,
@@ -56,7 +56,7 @@ export async function generateMetadata({ params }) {
       images: article.cover_image ? [article.cover_image] : [],
     },
     alternates: {
-      canonical: `${baseUrl}/${articleLanguage}/articles/${params.slug}`,
+      canonical: `${baseUrl}/${localeForUrl}/articles/${params.slug}`,
       languages: {
         'fr': `${baseUrl}/fr/articles/${params.slug}`,
         'en': `${baseUrl}/en/articles/${params.slug}`,

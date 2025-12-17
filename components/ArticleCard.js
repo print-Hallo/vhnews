@@ -4,10 +4,9 @@ import Link from "next/link"
 import Image from "next/image"
 import { Calendar, Clock, User } from "lucide-react"
 import { useTranslation } from "@/lib/i18n/client-translations"
-import { useEffect, useState } from "react"
+import { useEffect, useState} from "react"
 export default function ArticleCard({ article, variant = "default", locale = "fr" }) {
   if (!article) return null
-
 
   const { t } = useTranslation()
   const [titleEn, setTitleEn] = useState("")
@@ -41,6 +40,7 @@ export default function ArticleCard({ article, variant = "default", locale = "fr
       setExcerptFr(excerptParts[1])
     }
   }, [article])
+
   /*Categories list of objects with equivalent translations based on the DB article.category*/
   let categories = [
     {name: "SOCIOLOGIE", equivalent: t("nav.sociology") },
@@ -50,10 +50,11 @@ export default function ArticleCard({ article, variant = "default", locale = "fr
     {name: "DIVERS", equivalent: t("nav.misc") },
   ]
   const categoryTranslation = categories.find(cat => cat.name === article.category)?.equivalent || article.category
+  const articleUrl = `/${currentLang || 'fr'}/articles/${article.slug}`
 
   return (
-    <article className="group border border-border  rounded-lg overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1 bg-card">
-      <Link href={`/articles/${article.slug}`} className="block">
+    <article className="group border border-border  rounded-lg overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1 bg-card" >
+      <Link href={articleUrl} className="block">
         {/* Thumbnail */}
         <div className="relative aspect-[16/9] max overflow-hidden">
           <Image

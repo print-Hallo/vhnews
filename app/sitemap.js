@@ -92,7 +92,7 @@ export default async function sitemap() {
     const commonData = {
       lastModified: new Date(article.updated_at),
       changeFrequency: "daily",
-      priority: 0.8,
+      priority: 1,
     };
   
     return [
